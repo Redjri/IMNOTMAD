@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>I Am Not Mad — An Interactive Story</title>
+  <meta name="description" content="Lucas Gray begins hearing a persistent sound inside his apartment that leads him to Unit 4B. An adaptation of The Tell-Tale Heart by Edgar Allan Poe." />
+
+  <!-- Google Fonts: Cormorant Garamond (display) + EB Garamond (body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ── COVER SCREEN ─────────────────────────────────────── -->
+  <div id="cover-screen">
+
+    <div class="cover-eyebrow">an interactive story</div>
+
+    <h1 class="cover-title">I Am Not <em>Mad</em></h1>
+
+    <div class="cover-divider"></div>
+
+    <p class="cover-subtitle">An adaptation of "The Tell-Tale Heart"</p>
+    <p class="cover-author">by Edgar Allan Poe &nbsp;·&nbsp; Written by Nur Anisah</p>
+
+    <p class="cover-description">
+      Lucas Gray begins hearing a persistent sound inside his apartment
+      that leads him to Unit 4B — a space that does not behave consistently
+      and seems to shift with perception. The deeper he goes, the less certain
+      he becomes about what is real.
+    </p>
+
+    <button class="btn-start" onclick="startStory()">Begin</button>
+
+  </div>
+
+  <!-- ── STORY SCREEN ─────────────────────────────────────── -->
+  <div id="story-screen">
+
+    <!-- Header -->
+    <div class="story-header">
+      <!-- <button class="btn-back" onclick="goBack()">← Back</button> -->
+      <span class="story-title-small">I Am Not Mad</span>
+      <span class="story-part-label" id="part-label">Prologue</span>
+    </div>
+
+    <!-- Progress bar -->
+    <div class="progress-bar">
+      <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+    </div>
+
+    <!-- Dynamic story content -->
+    <div id="story-content"></div>
+
+  </div>
+
+  <!-- Scripts — story data first, then engine -->
+  <script src="story.js"></script>
+  <script src="main.js"></script>
+
+</body>
+</html>
