@@ -1,0 +1,472 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap');
+
+/* ── DESIGN TOKENS ─────────────────────────────────────────── */
+:root {
+  --bg:           #0d1117;       /* near-black base */
+  --bg-cover:     #0b1120;       /* midnight blue deep */
+  --blue-mid:     #152240;       /* midnight blue mid */
+  --blue-muted:   #1e3055;       /* midnight blue muted */
+  --gold:         #c9a84c;       /* antique gold */
+  --gold-dim:     #8a6b28;       /* antique gold dim */
+  --gold-faint:   #3d2e0f;       /* antique gold faint */
+  --text-body:    #a8b8d0;       /* blue-tinted body text */
+  --text-dim:     #5a6a80;       /* dimmed text */
+  --text-faint:   #2a3a50;       /* very dim */
+  --text-title:   #e8dfc8;       /* warm off-white for titles */
+  --thump:        #b8862a;       /* thump accent */
+  --border:       #1e2e45;       /* subtle border */
+  --border-hover: #3a5070;       /* hover border */
+  --red: #c94c4c;
+}
+
+/* ── RESET ─────────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  /* fluid base size: scales smoothly between phones and large desktops */
+  font-size: clamp(14px, 1.1vw + 10px, 18px);
+}
+
+body {
+  background: var(--bg);
+  color: var(--text-body);
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 1rem;
+  line-height: 1.85;
+  min-height: 100vh;
+  min-height: 100dvh; /* respects mobile browser chrome */
+}
+
+/* ── COVER SCREEN ───────────────────────────────────────────── */
+#cover-screen {
+  min-height: 100vh;
+  min-height: 100dvh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-cover);
+  padding: clamp(2rem, 6vw, 4rem) clamp(1.25rem, 5vw, 2rem);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* subtle radial glow — the signature element */
+#cover-screen::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 50% 40%, rgba(201,168,76,0.07) 0%, transparent 65%),
+    radial-gradient(ellipse 80% 60% at 50% 100%, rgba(21,34,64,0.6) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* thin gold horizontal rule that pulses once on load */
+#cover-screen::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1px;
+  height: 80px;
+  background: linear-gradient(to bottom, transparent, var(--gold-dim));
+  animation: lineDown 1.4s ease forwards;
+}
+
+@keyframes lineDown {
+  from { height: 0; opacity: 0; }
+  to   { height: 80px; opacity: 1; }
+}
+
+.cover-eyebrow {
+  font-family: 'EB Garamond', serif;
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+  margin-bottom: 2.5rem;
+  animation: fadeUp 1s 0.4s both;
+}
+
+.cover-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2.2rem, 9vw + 0.5rem, 5.5rem);
+  font-weight: 300;
+  color: var(--text-title);
+  line-height: 1.1;
+  letter-spacing: 0.02em;
+  margin-bottom: 0.2rem;
+  min-height: 1.1em; /* reserve space so layout doesn't jump before typing starts */
+}
+
+.cover-title em {
+  font-style: normal;
+  color: var(--red);
+}
+
+/* typewriter cursor */
+.typewriter-cursor {
+  display: inline-block;
+  margin-left: 0.08em;
+  font-weight: 300;
+  color: var(--gold);
+  opacity: 1;
+  animation: blink 0.9s step-end infinite;
+}
+
+.typewriter-cursor.done {
+  animation: blink 0.9s step-end infinite;
+}
+
+@keyframes blink {
+  0%, 50%   { opacity: 1; }
+  50.01%, 100% { opacity: 0; }
+}
+
+.cover-divider {
+  width: 60px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold-dim), transparent);
+  margin: 1.6rem auto;
+  opacity: 0;
+}
+.cover-divider.reveal { animation: fadeUp 0.8s 0.1s both; }
+
+.cover-subtitle {
+  font-family: 'EB Garamond', serif;
+  font-style: italic;
+  font-size: clamp(0.9rem, 0.5vw + 0.8rem, 1.1rem);
+  color: #b0b8c8;
+  margin-bottom: 0.4rem;
+  opacity: 0;
+}
+.cover-subtitle.reveal { animation: fadeUp 0.8s 0.25s both; }
+
+.cover-author {
+  font-size: clamp(0.78rem, 0.3vw + 0.7rem, 0.9rem);
+  color: #8a96a8;
+  letter-spacing: 0.12em;
+  margin-bottom: clamp(2rem, 5vw, 3rem);
+  opacity: 0;
+}
+.cover-author.reveal { animation: fadeUp 0.8s 0.4s both; }
+
+.cover-description {
+  max-width: min(480px, 90vw);
+  font-size: clamp(0.88rem, 0.4vw + 0.8rem, 1rem);
+  color: #8a96a8;
+  line-height: 1.85;
+  margin-bottom: clamp(2.25rem, 6vw, 3.5rem);
+  font-style: italic;
+  opacity: 0;
+}
+.cover-description.reveal { animation: fadeUp 0.8s 0.55s both; }
+
+.btn-start {
+  background: transparent;
+  border: 1px solid var(--gold-dim);
+  color: var(--gold);
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(0.9rem, 0.3vw + 0.85rem, 1rem);
+  font-weight: 400;
+  letter-spacing: 0.25em;
+  padding: 0.8rem clamp(1.75rem, 8vw, 3rem);
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: border-color 0.3s, color 0.3s, background 0.3s;
+  position: relative;
+  min-height: 44px; /* comfortable tap target on touch devices */
+  opacity: 0;
+}
+.btn-start.reveal { animation: fadeUp 0.8s 0.7s both; }
+
+.btn-start:hover {
+  border-color: var(--gold);
+  color: var(--text-title);
+  background: rgba(201, 168, 76, 0.06);
+}
+
+/* ── STORY SCREEN ───────────────────────────────────────────── */
+#story-screen {
+  display: none;
+  width: 100%;
+  max-width: min(700px, 94vw);
+  margin: 0 auto;
+  padding: clamp(1.5rem, 5vw, 3rem) clamp(1rem, 4vw, 2rem) clamp(3rem, 10vw, 8rem);
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+/* progress bar */
+.progress-bar {
+  width: 100%;
+  height: 1px;
+  background: var(--text-faint);
+  margin-bottom: 3rem;
+  opacity: 0.5;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--blue-mid), var(--gold-dim));
+  transition: width 0.7s ease;
+}
+
+/* story header */
+.story-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.story-part-label {
+  font-size: clamp(9px, 0.4vw + 8px, 10px);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+.story-title-small {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(0.85rem, 0.4vw + 0.75rem, 0.95rem);
+  color: var(--text-dim);
+  font-style: italic;
+  font-weight: 300;
+}
+
+.btn-back {
+  background: none;
+  border: none;
+  color: var(--text-faint);
+  font-family: 'EB Garamond', serif;
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: color 0.2s;
+  padding: 0;
+}
+.btn-back:hover { color: var(--gold-dim); }
+
+/* node heading */
+.node-label {
+  font-size: 10px;
+  letter-spacing: 0.28em;
+  color: var(--gold-dim);
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+
+.node-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.6rem, 3.5vw + 0.8rem, 2.6rem);
+  font-weight: 300;
+  color: var(--text-title);
+  line-height: 1.15;
+  margin-bottom: clamp(1.25rem, 4vw, 2rem);
+  letter-spacing: 0.01em;
+}
+
+/* body text */
+.story-body {
+  color: var(--text-body);
+  font-size: clamp(0.98rem, 0.3vw + 0.9rem, 1.05rem);
+  line-height: 1.92;
+  margin-bottom: clamp(2rem, 6vw, 3rem);
+}
+
+.story-body p {
+  margin-bottom: 1.1em;
+}
+
+.story-body em {
+  color: var(--text-title);
+  font-style: italic;
+}
+
+/* thump special line */
+.thump-line {
+  display: block;
+  text-align: center;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: clamp(1.2rem, 2vw + 0.7rem, 1.5rem);
+  font-weight: 300;
+  color: var(--thump);
+  margin: clamp(1.25rem, 4vw, 2rem) 0;
+  letter-spacing: 0.08em;
+}
+
+/* choices */
+.choices-label {
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--text-title);
+  margin-bottom: 0.9rem;
+}
+
+.choices-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.choice-btn {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-title);
+  font-family: 'EB Garamond', serif;
+  font-size: clamp(0.95rem, 0.3vw + 0.88rem, 1rem);
+  padding: clamp(0.7rem, 2vw, 0.85rem) clamp(1rem, 3vw, 1.3rem);
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.25s, color 0.25s, background 0.25s;
+  line-height: 1.45;
+  min-height: 44px; /* comfortable tap target on touch devices */
+}
+
+.choice-btn::before {
+  content: '›';
+  margin-right: 0.65rem;
+  color: var(--gold-faint);
+  transition: color 0.2s;
+}
+
+.choice-btn:hover {
+  border-color: var(--gold-dim);
+  color: var(--text-title);
+  background: rgba(201, 168, 76, 0.04);
+}
+
+.choice-btn:hover::before {
+  color: var(--gold);
+}
+
+/* ending blocks */
+.ending-block {
+  border: 1px solid var(--border);
+  padding: clamp(1.75rem, 6vw, 2.5rem) clamp(1.25rem, 5vw, 2rem);
+  margin-top: clamp(1.75rem, 5vw, 2.5rem);
+  text-align: center;
+}
+
+.ending-block.denial   { border-color: #3d1a10; }
+.ending-block.ambiguous { border-color: #2a3a18; }
+.ending-block.loop     { border-color: #1a2a40; }
+
+.ending-type {
+  font-size: clamp(9px, 0.4vw + 8px, 10px);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  margin-bottom: 1.2rem;
+  color: var(--text-faint);
+}
+
+.ending-quote {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: clamp(1.35rem, 3vw + 0.6rem, 2rem);
+  font-weight: 300;
+  color: var(--gold);
+  line-height: 1.4;
+  margin-bottom: 1.2rem;
+}
+
+.ending-desc {
+  font-size: clamp(0.85rem, 0.3vw + 0.78rem, 0.9rem);
+  color: var(--text-faint);
+  line-height: 1.75;
+  margin-bottom: 2rem;
+  max-width: min(400px, 88vw);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.btn-restart {
+  background: none;
+  border: 1px solid var(--text-faint);
+  color: var(--text-faint);
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.9rem;
+  font-weight: 400;
+  letter-spacing: 0.2em;
+  padding: 0.55rem 1.8rem;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: all 0.3s;
+}
+.btn-restart:hover {
+  border-color: var(--gold-dim);
+  color: var(--gold);
+}
+
+/* ── ANIMATIONS ─────────────────────────────────────────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+  animation: fadeUp 0.7s ease both;
+}
+
+/* ── RESPONSIVE ─────────────────────────────────────────────── */
+
+/* Small phones (narrow width) — tighten spacing further */
+@media (max-width: 380px) {
+  .cover-eyebrow  { margin-bottom: 1.75rem; }
+  .cover-divider  { margin: 1.2rem auto; }
+  .choices-list   { gap: 0.5rem; }
+}
+
+/* Phones in landscape — content can exceed viewport height,
+   so shrink vertical rhythm and allow scrolling instead of
+   relying purely on min-height centering */
+@media (max-height: 480px) and (orientation: landscape) {
+  #cover-screen {
+    min-height: 100vh;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+  .cover-eyebrow    { margin-bottom: 1.25rem; }
+  .cover-divider    { margin: 1rem auto; }
+  .cover-author     { margin-bottom: 1.5rem; }
+  .cover-description{ margin-bottom: 1.75rem; }
+}
+
+/* Tablets — slightly roomier line length and spacing */
+@media (min-width: 700px) and (max-width: 1024px) {
+  #story-screen { max-width: 640px; }
+}
+
+/* Large desktop / wide screens — cap line length for readability,
+   center comfortably, scale up whitespace a touch */
+@media (min-width: 1440px) {
+  #story-screen { max-width: 760px; }
+  .story-body   { font-size: 1.1rem; }
+}
+
+/* Respect users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
